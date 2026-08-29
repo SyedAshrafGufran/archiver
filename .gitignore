@@ -1,0 +1,11 @@
+.wwebjs_cache/
+node_modules/
+session/
+oauth-token.json
+service-account-key.json
+.env
+
+# Misc
+.git
+npm-debug.log
+*.log

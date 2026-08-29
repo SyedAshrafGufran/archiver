@@ -1,0 +1,18 @@
+{
+  "name": "wa-drive-collector",
+  "version": "1.0.0",
+  "description": "Collects images from a WhatsApp group and uploads them to Google Drive, named by sender phone number.",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node index.js",
+    "list-groups": "node list-groups.js",
+    "authorize": "node oauth-setup.js"
+  },
+  "dependencies": {
+    "whatsapp-web.js": "github:wwebjs/whatsapp-web.js#pull/201832/head",
+    "qrcode-terminal": "^0.12.0",
+    "googleapis": "^140.0.1",
+    "dotenv": "^16.4.5"
+  }
+}

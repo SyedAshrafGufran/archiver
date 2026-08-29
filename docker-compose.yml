@@ -1,0 +1,47 @@
+services:
+  # Main service: watches the WhatsApp group and uploads images to Drive.
+  bot:
+    build: .
+    container_name: wa-drive-collector
+    env_file:
+      - .env
+    volumes:
+      - ./session:/app/session
+      - ./.wwebjs_cache:/app/.wwebjs_cache
+      - ./oauth-token.json:/app/oauth-token.json
+    # Chromium needs more than Docker's 64MB default /dev/shm, or it
+    # crashes/stalls mid-render and whatsapp-web.js times out waiting
+    # for the page to load.
+    shm_size: "1gb"
+    # Needed so the QR code (on first login) prints to your terminal.
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+
+  # One-off: run once to link your Google account.
+  #   docker compose --profile setup run --rm authorize
+  authorize:
+    build: .
+    container_name: wa-drive-authorize
+    profiles: ["setup"]
+    command: ["node", "oauth-setup.js"]
+    env_file:
+      - .env
+    ports:
+      - "53682:53682"
+    volumes:
+      - ./oauth-token.json:/app/oauth-token.json
+
+  # One-off: run once to find your WhatsApp group's ID.
+  #   docker compose --profile setup run --rm list-groups
+  list-groups:
+    build: .
+    container_name: wa-drive-list-groups
+    profiles: ["setup"]
+    command: ["node", "list-groups.js"]
+    volumes:
+      - ./session:/app/session
+      - ./.wwebjs_cache:/app/.wwebjs_cache
+    shm_size: "1gb"
+    stdin_open: true
+    tty: true

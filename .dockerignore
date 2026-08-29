@@ -1,0 +1,15 @@
+# Runtime/session data - these are bind-mounted as volumes instead so they
+# persist across rebuilds and are never baked into an image layer.
+session/
+.wwebjs_cache/
+oauth-token.json
+service-account-key.json
+.env
+
+# Misc
+.git
+.gitignore
+README.md
+DOCKER_SETUP.md
+npm-debug.log
+*.log
