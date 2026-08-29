@@ -20,17 +20,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 WORKDIR /app
 
 # --- Dependencies ------------------------------------------------------------
-# This project's whatsapp-web.js dependency points at a specific GitHub pull
-# request (github:wwebjs/whatsapp-web.js#pull/201832/head), which npm's
-# lockfile resolves via git+ssh. That fails in a clean container without SSH
-# keys. To keep the build 100% offline/reproducible, we copy the
-# node_modules folder that already exists in your project (from when you ran
-# `npm install` locally) straight into the image instead of re-installing.
-#
-# node_modules in this project contains no compiled native (.node) addons,
-# so copying it into this Debian/Node 22 image is safe.
 COPY package.json package-lock.json ./
-COPY node_modules ./node_modules
+RUN npm ci --only=production
 
 # --- Application code ---------------------------------------------------------
 COPY index.js drive-uploader.js list-groups.js oauth-setup.js ./
