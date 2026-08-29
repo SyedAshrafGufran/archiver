@@ -25,7 +25,7 @@ RUN npm ci --only=production
 
 # --- Application code ---------------------------------------------------------
 COPY index.js drive-uploader.js list-groups.js oauth-setup.js ./
-
+COPY logger.js ./
 RUN mkdir -p session .wwebjs_cache
 
 # Run as a non-root user for safety. --no-sandbox is already passed to

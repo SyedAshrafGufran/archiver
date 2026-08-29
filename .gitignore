@@ -4,7 +4,7 @@ session/
 oauth-token.json
 service-account-key.json
 .env
-
+logs/
 # Misc
 .git
 npm-debug.log
